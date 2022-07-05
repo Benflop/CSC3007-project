@@ -19,15 +19,8 @@ function createSlides(){
 
     var img = document.createElement('img');
 
-    // Show the gif for Slide #17
-    if (i == 17){
-        img.setAttribute("src", "slide" + String(i) + ".gif");
-        img.setAttribute("height", "750");
-        img.setAttribute("width", "1080px");
-
-    }else{
-        img.setAttribute("src", "slide" + String(i) + ".png");
-    }
+    img.setAttribute("src", "Slide" + String(i) + ".png");
+    
 
     newDiv2.appendChild(img);
     newDiv.appendChild(newDiv2);
