@@ -19,7 +19,7 @@ function createSlides(){
 
     var img = document.createElement('img');
 
-    img.setAttribute("src", "Slide" + String(i) + ".png");
+    img.setAttribute("src", "Slide" + String(i) + ".PNG");
     
 
     newDiv2.appendChild(img);
