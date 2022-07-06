@@ -1,5 +1,5 @@
 
-const SLIDE_COUNT = 7;
+const SLIDE_COUNT = 9;
 
 function createSlides(){
 
