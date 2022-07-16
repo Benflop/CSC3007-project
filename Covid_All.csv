@@ -1,5 +1,5 @@
-iso_code,continent,location,date,total_cases,new_cases,new_cases_smoothed,total_deaths,new_deaths,new_deaths_smoothed,total_cases_per_million,new_cases_per_million,new_cases_smoothed_per_million
-SGP,Asia,Singapore,23/1/2020,1,1,0,0,0,0,0.183,0.183,0
+iso_code,continent,location,date,total_cases,new_cases,new_cases_smoothed,total_deaths,new_deaths,new_deaths_smoothed,total_cases_per_million,new_cases_per_million,new_cases_smoothed_per_million,Events
+SGP,Asia,Singapore,23/1/2020,1,1,0,0,0,0,0.183,0.183,0,Start of Alpha Variant
 SGP,Asia,Singapore,24/1/2020,3,2,0,0,0,0,0.55,0.367,0
 SGP,Asia,Singapore,25/1/2020,3,0,0,0,0,0,0.55,0,0
 SGP,Asia,Singapore,26/1/2020,4,1,0,0,0,0,0.733,0.183,0
@@ -84,7 +84,7 @@ SGP,Asia,Singapore,13/4/2020,2918,386,220.429,9,1,0.429,535.059,70.779,40.419
 SGP,Asia,Singapore,14/4/2020,3252,334,253,10,1,0.571,596.303,61.244,46.391
 SGP,Asia,Singapore,15/4/2020,3699,447,296.571,10,0,0.571,678.268,81.964,54.381
 SGP,Asia,Singapore,16/4/2020,4427,728,359.571,10,0,0.571,811.757,133.49,65.933
-SGP,Asia,Singapore,17/4/2020,5050,623,420.286,11,1,0.571,925.994,114.236,77.066
+SGP,Asia,Singapore,17/4/2020,5050,623,420.286,11,1,0.571,925.994,114.236,77.066,Start of Lockdown
 SGP,Asia,Singapore,18/4/2020,5992,942,527.571,11,0,0.429,1098.724,172.73,96.738
 SGP,Asia,Singapore,19/4/2020,6588,596,579.429,11,0,0.429,1208.009,109.286,106.247
 SGP,Asia,Singapore,20/4/2020,8014,1426,728,11,0,0.286,1469.488,261.479,133.49
@@ -129,7 +129,7 @@ SGP,Asia,Singapore,28/5/2020,33249,373,491,23,0,0,6096.707,68.395,90.032
 SGP,Asia,Singapore,29/5/2020,33860,611,490.571,23,0,0,6208.743,112.036,89.954
 SGP,Asia,Singapore,30/5/2020,34366,506,471.143,23,0,0,6301.526,92.783,86.391
 SGP,Asia,Singapore,31/5/2020,34884,518,466.857,23,0,0,6396.509,94.983,85.605
-SGP,Asia,Singapore,1/6/2020,35292,408,476,24,1,0.143,6471.322,74.813,87.282
+SGP,Asia,Singapore,1/6/2020,35292,408,476,24,1,0.143,6471.322,74.813,87.282,End of Lockdown
 SGP,Asia,Singapore,2/6/2020,35836,544,499,24,0,0.143,6571.072,99.751,91.499
 SGP,Asia,Singapore,3/6/2020,36405,569,504.143,24,0,0.143,6675.407,104.335,92.442
 SGP,Asia,Singapore,4/6/2020,36922,517,524.714,24,0,0.143,6770.207,94.8,96.214
@@ -154,7 +154,7 @@ SGP,Asia,Singapore,22/6/2020,42313,218,213.571,26,0,0,7758.728,39.974,39.162
 SGP,Asia,Singapore,23/6/2020,42432,119,209,26,0,0,7780.549,21.82,38.323
 SGP,Asia,Singapore,24/6/2020,42623,191,201,26,0,0,7815.571,35.023,36.856
 SGP,Asia,Singapore,25/6/2020,42736,113,180.429,26,0,0,7836.292,20.72,33.084
-SGP,Asia,Singapore,26/6/2020,42955,219,191.429,26,0,0,7876.449,40.157,35.101
+SGP,Asia,Singapore,26/6/2020,42955,219,191.429,26,0,0,7876.449,40.157,35.101,Start of Delta Variant
 SGP,Asia,Singapore,27/6/2020,43246,291,201.857,26,0,0,7929.808,53.359,37.014
 SGP,Asia,Singapore,28/6/2020,43459,213,194.857,26,0,0,7968.865,39.057,35.73
 SGP,Asia,Singapore,29/6/2020,43661,202,192.571,26,0,0,8005.904,37.04,35.311
