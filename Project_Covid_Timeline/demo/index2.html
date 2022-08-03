@@ -16,6 +16,8 @@
 
 <script>
 
+    let covidData = {}
+
     // set the dimensions and margins of the graph
     var width = 450
     height = 450
@@ -33,7 +35,8 @@
         .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     // create 2 data_set
-    var data1 = { a: 9, b: 20, c: 30, d: 8, e: 12 }
+    // var data1 = { a: 9, b: 20, c: 30, d: 8, e: 12 }
+    var data1 = {}
     var data2 = { a: 6, b: 16, c: 20, d: 14, e: 19, f: 12 }
     var fileName = "Covid_2021_New.csv"
     var date = formatDate("9/6/2021")
@@ -42,17 +45,35 @@
         function (d) {
             // return { date : formatDate(d.date), value : parseInt(d.total_cases), detail: d.Events,content: d.Summary.substring(0, 110).replace("1.", "") + "...",eventUrl : d.Url,deaths: parseInt(d.total_deaths),new_case:parseInt(d.new_cases),new_death:parseInt(d.new_deaths)};
             var dDate = formatDate(d.date)
-            var covidData = new Object()
 
             if (date.getTime() === dDate.getTime()) {
                 covidData.date = dDate
-                covidData.new_cases = d.new_cases
-                covidData.new_deaths = d.new_deaths
-                console.log(covidData)
-                // update(covidData)
+                //data1["cases"] = d.new(cases)
+                // data1["cases"] = d.new(cases) 
+                // data1.append("new_case", parseInt(d.new_cases))
+                data1.cases = parseInt(d.new_cases)
+                data1.death = parseInt(d.new_deaths);
+                data1.c = 12
+                console.log("Data1: " + JSON.stringify(data1))
+                update(data1)
+
+
+                // covidData.value = 
+                // covidData.key = d.new_deaths
             }
+            // data1["cases"] = d.new(cases)    
+            // data1.cases = parseInt(d.new_cases)
+            // data1.append("new_case", parseInt(d.new_cases))
+            // console.log("Data1: " + JSON.stringify(data1))
+            // update(data1)
+            return data1
+
         },
         function (data) {
+            // update(data)
+            //    console.log(data)
+            // console.log(covidData)
+
         })
 
     // set the color scale
@@ -67,7 +88,7 @@
         var pie = d3.pie()
             .value(function (d) { return d.value; })
             .sort(function (a, b) {
-                // console.log(a) ;
+                console.log(a);
                 return d3.ascending(a.key, b.key);
             }) // This make sure that group order remains the same in the pie chart
         var data_ready = pie(d3.entries(data))
@@ -101,7 +122,7 @@
 
     // Initialize the plot with the first dataset
     update(data1)
-
+    // console.log(covidData)
 
     function formatDate(str) {
         var parts = str.split("/");
