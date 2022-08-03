@@ -69,7 +69,7 @@
                     Events: <label id="lblEvent"></label>  
                     </div>
                     <div class="tooltip"></div>
-                    <div id="piechart" style="margin-left: auto; margin-right:0;width:50%;height:330px" ></div>
+                    <div id="piechart0" style="margin-left: auto; margin-right:0;width:50%;height:330px" ></div>
                     </div>
                   </div>
     
@@ -87,7 +87,8 @@
                     
                     <div class="timeline-text" style="background: rgba(255, 255, 255, 0.5); margin-left: auto; margin-right:0;width:35%;height:330px" >
                       <h2 style="text-align: center;">Covid Highlight</h2>
-                      <p style="margin-left: 30px;">
+                      <div class="timeline-content"                      
+                      style=" float:left; width:50%;height:100%; margin: 5">
                         Date: <label id="lblDate1"></label>
                         <br>
                         Covid Cases: <label id="lblCovid1"></label>
@@ -97,7 +98,9 @@
                       New Death Cases: <label id="lblNewDeath1"></label>
                     <br>
                     Events: <label id="lblEvent1"></label>  
-                    </p>
+                    </div>
+                    <div class="tooltip"></div>
+                    <div id="piechart1" style="margin-left: auto; margin-right:0;width:50%;height:330px" ></div>
                     </div>
                   </div>
     
@@ -112,9 +115,10 @@
                     </div>
                   
                     
-                    <div class="timeline-text" style="background: rgba(255, 255, 255, 0.5); margin-left: auto; margin-right:0;width:30%;height:330px" >
+                    <div class="timeline-text" style="background: rgba(255, 255, 255, 0.5); margin-left: auto; margin-right:0;width:35%;height:330px" >
                       <h2 style="text-align: center;">Covid Highlight</h2>
-                      <p style="margin-left: 30px;">
+                      <div class="timeline-content"                      
+                      style=" float:left; width:50%;height:100%; margin: 5">
                         Date: <label id="lblDate2"></label>
                         <br>
                         Covid Cases: <label id="lblCovid2"></label>
@@ -124,7 +128,9 @@
                       New Death Cases: <label id="lblNewDeath2"></label>
                     <br>
                     Events: <label id="lblEvent2"></label>  
-                    </p>
+                    </div>
+                    <div class="tooltip"></div>
+                    <div id="piechart2" style="margin-left: auto; margin-right:0;width:50%;height:330px" ></div>
                     </div>
                   </div>
 								</div>
@@ -170,8 +176,10 @@
 				// Demo 2
 
 			});
-
+var year;
       var data2 = { a: 6, b: 16, c: 20, d: 14, e: 19, f: 12 }
+
+let option = 1;
 			
 var margin = {top: 10, right: 30, bottom: 30, left: 60},
     width = 760 - margin.left - margin.right,
@@ -194,17 +202,32 @@ var pWidth = 200
         .attr("class", "tooltip")
         .style("opacity", 0)
 
-    // append the svg object to the div called 'my_dataviz'
-    var svg = d3.select("#piechart")
+          // append the svg object to the div called 'my_dataviz'
+    var svg = d3.select("#piechart0")
         .append("svg")
         .attr("width", pWidth)
         .attr("height", pHeight)
         .append("g")
         .attr("transform", "translate(" + pWidth / 2 + "," + pHeight / 2 + ")");
-   
 
+    var svg1 = d3.select("#piechart1")
+        .append("svg")
+        .attr("width", pWidth)
+        .attr("height", pHeight)
+        .append("g")
+        .attr("transform", "translate(" + pWidth / 2 + "," + pHeight / 2 + ")");
+
+        var svg2 = d3.select("#piechart2")
+        .append("svg")
+        .attr("width", pWidth)
+        .attr("height", pHeight)
+        .append("g")
+        .attr("transform", "translate(" + pWidth / 2 + "," + pHeight / 2 + ")");
+    
 function loadTable(graphNo, tableName,fileName, tooltips1, tooltips2,lblCovids,lblNewCases,lblDeaths,lblNewDeaths,lblEvents,lblDate) {
 
+ 
+// option = graphNo
 var svg = d3.select("#" + tableName)
   .append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -220,7 +243,10 @@ function(d){
   },
 function(data) {
 
-update(data2)
+  
+var local = graphNo;
+option = graphNo;
+update(data2,local)
 
 console.log(data);
 //myFunction()
@@ -335,7 +361,8 @@ console.log(data);
                         .attr("x1", 10).attr("x2", 10) 
                         .attr("y1", 0).attr("y2", height); 
 
-
+// option = graphNo;
+// update(data);
   // What happens when the mouse move -> show the annotations at the right positions.
   function mouseover() {
     focus.style("opacity", 1)
@@ -393,9 +420,9 @@ d3.select("#" + tooltips2)
 hoverLine.attr("x1", x(selectedData.date)).attr("x2", x(selectedData.date))
 hoverLineGroup.style("opacity", 1);
 
-var covidData = {new_death: selectedData.new_case, new_cases: selectedData.new_death };
-
-update(covidData)
+var covidData = {new_death: selectedData.new_death, new_cases: selectedData.new_case };
+console.log("Trace PIE: " + "#piechart" + local)
+update(covidData, local)
 
 $('#' +lblCovids).html(selectedData.value);
 $('#' + lblNewCases).html(selectedData.new_case);
@@ -429,11 +456,33 @@ return dt;
 
 }
 
+// update(data2,"#piechart" + option)
+
 // A function that create / update the plot for a given variable:
-function update(data) {
+function update(data, name) {
+
+  console.log("Data: " + JSON.stringify(data))
+  // var svgs = d3.select(name)
+  //       .append("svg")
+  //       .attr("width", pWidth)
+  //       .attr("height", pHeight)
+  //       .append("g")
+  //       .attr("transform", "translate(" + pWidth / 2 + "," + pHeight / 2 + ")");
+
+  var s = svg;
+  switch(name){
+    case 0: s = svg;
+    break;
+    case 1: s = svg1;
+    break;
+
+  case 2: s = svg2;
+  break;
+  }
 
 // Compute the position of each group on the pie:
 var pie = d3.pie()
+
     .value(function (d) { return d.value; })
     .sort(function (a, b) {
         console.log(a);
@@ -441,12 +490,14 @@ var pie = d3.pie()
     }) // This make sure that group order remains the same in the pie chart
 var data_ready = pie(d3.entries(data))
 
+console.log(data)
+
 // map to data
-var u = svg.selectAll("path")
+var u = s.selectAll("path")
     .data(data_ready)
-.on("mouseover", function (d) {
+    .on("mouseover", function (d) {
                 tip.style("opacity", 1)
-                    .html("This is working")
+                    .html("New Cases: " + data.new_cases + " , " + "New Deaths: " + data.new_death)
                     .style("left", (event.pageX) + "px")
                     .style("top", (event.pageY) + "px")
             })
@@ -474,10 +525,7 @@ u
 u
     .exit()
     .remove()
-
-}
-      
- 
+}    
 
 loadTable(0,'my_dataviz','Covid_2020_New.csv', 'tooltip1', 'tooltip2','lblCovid','lblNewCase','lblDeath','lblNewDeath','lblEvent','lblDate')
 loadTable(1,'my_dataviz1','Covid_2021_New.csv', 'tooltip3', 'tooltip4','lblCovid1','lblNewCase1','lblDeath1','lblNewDeath1','lblEvent1','lblDate1')
