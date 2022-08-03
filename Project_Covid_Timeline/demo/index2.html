@@ -35,19 +35,21 @@
     // create 2 data_set
     var data1 = { a: 9, b: 20, c: 30, d: 8, e: 12 }
     var data2 = { a: 6, b: 16, c: 20, d: 14, e: 19, f: 12 }
-    var covidData = new Object()
-
     var fileName = "Covid_2021_New.csv"
     var date = formatDate("9/6/2021")
-    
+
     d3.csv("https://benflop.github.io/CSC3007-project/" + fileName,
         function (d) {
             // return { date : formatDate(d.date), value : parseInt(d.total_cases), detail: d.Events,content: d.Summary.substring(0, 110).replace("1.", "") + "...",eventUrl : d.Url,deaths: parseInt(d.total_deaths),new_case:parseInt(d.new_cases),new_death:parseInt(d.new_deaths)};
             var dDate = formatDate(d.date)
+            var covidData = new Object()
+
             if (date.getTime() === dDate.getTime()) {
                 covidData.date = dDate
                 covidData.new_cases = d.new_cases
                 covidData.new_deaths = d.new_deaths
+                console.log(covidData)
+                // update(covidData)
             }
         },
         function (data) {
@@ -99,6 +101,7 @@
 
     // Initialize the plot with the first dataset
     update(data1)
+
 
     function formatDate(str) {
         var parts = str.split("/");
