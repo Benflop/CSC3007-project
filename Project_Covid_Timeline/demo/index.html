@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="css/demo.css">
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.js"></script>
     <meta name="description" content="jQuery timeline plugin, easily creates a timeline."/>
     <meta name="keywords" content="timelinejs, timeline, timeline slider, milestone, topic:chronology, jquery timeline plugin"/>
   </head>
@@ -182,7 +183,7 @@ var svg = d3.select("#" + tableName)
 //Read the dataCovid_2020_New.csv
 d3.csv("https://benflop.github.io/CSC3007-project/" +fileName,
 function(d){
-    return { date : formatDate(d.date), value : parseInt(d.total_cases), detail: d.Events,content: d.Summary.substring(0, 110).replace("1.", "") + "...",eventUrl : d.Url,deaths: parseInt(d.total_deaths),new_case:parseInt(d.new_cases),new_death:parseInt(d.new_deaths)};
+    return { date : formatDate(d.date), value : parseInt(d.total_cases), detail: d.Events,content: d.Summary.substring(0, 110).replace("1.", "") + "...",eventUrl : d.Url,deaths: parseInt(d.total_deaths),new_case:parseInt(d.new_cases),new_death:parseInt(d.new_deaths), Event: d.Event};
   },
 function(data) {
 
@@ -226,18 +227,35 @@ console.log(data);
   var line2 = d3.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.deaths); });
+  
+  
+    console.log(data.date)
 
+  //  // Create the circle that travels along the curve of chart
+  //  var focus = svg
+  //   .append('g')
+  //   .append('circle')
+  //     .style("fill", "none")
+  //     .attr("stroke", "black")
+  //     .attr('r', 8.5)
+  //     .style("opacity", 0)
 
+  // // Create the text that travels along the curve of chart
+  // var focusText = svg
+  //   .append('g')
+  //   .append('text')
+  //     .style("opacity", 0)
+  //     .attr("text-anchor", "left")
+  //     .attr("alignment-baseline", "middle")
 
-  // Create the circle that travels along the curve of chart
+  //create the circle that travels along the curve of chart
   var focus = svg
     .append('g')
     .append('circle')
-      .style("fill", "none")
       .attr("stroke", "black")
-      .attr('r', 3.5)
-      .style("opacity", 0)
-      .style("Background", "white");
+      .attr('r', 5)
+  .attr('stroke', 'black')
+  .attr('fill', '#69a3b2');
       
   var focus2 = svg
     .append('g')
@@ -256,6 +274,48 @@ console.log(data);
     .attr("stroke", "steelblue")
     .attr("stroke-width", 1.5)
     .attr("d", line);
+  
+  var d = Date.parse(data.date);
+  var fd =  d3.timeFormat("%d/%m/%Y");
+  
+  console.log("Data: " +data.deaths);
+ 
+  
+  console.log("Hello WOrld")
+
+  svg.selectAll("myCircles")
+    .data(data)
+    .enter()
+    .append("circle")
+      .attr("fill", "red")
+      .attr("stroke", "none")
+      .style("opacity", function(d){
+        
+        if(d.Event == "T"){
+
+          return 1;
+        }
+
+        else{
+          return 0;
+        }
+      })
+      .attr("cx", function(d) {
+        
+        //console.log(x(d.date))
+
+          return x(d.date) })
+        .attr("cy", function(d) {
+
+        
+
+          return y(d.value)})
+      .attr("r",5);
+
+  
+
+
+
 
     svg.append("path")
     .datum(data)
@@ -264,30 +324,30 @@ console.log(data);
     .attr("stroke-width", 1.5)
     .attr("d", line2);
     
-  svg.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("cx", function(d) { return x(d.date); } )
-    .attr("cy", function(d) { return y(d.value); } )
-    .attr("r", 0.5)
-    .attr("fill", "red")
+  // svg.selectAll("circle")
+  //   .data(data)
+  //   .enter()
+  //   .append("circle")
+  //   .attr("cx", function(d) { return x(d.date); } )
+  //   .attr("cy", function(d) { return y(d.value); } )
+  //   .attr("r", 0.5)
+  //   .attr("fill", "red")
   
-  svg.selectAll("circle")
-    .data(data)
-    .enter()
-    .append("circle")
-    .attr("cx", function(d) { return x(d.date); } )
-    .attr("cy", function(d) { return y(d.deaths); } )
-    .attr("r", 0.5)
-    .attr("fill", "red")
+  // svg.selectAll("circle")
+  //   .data(data)
+  //   .enter()
+  //   .append("circle")
+  //   .attr("cx", function(d) { return x(d.date); } )
+  //   .attr("cy", function(d) { return y(d.deaths); } )
+  //   .attr("r", 0.5)
+  //   .attr("fill", "red")
 
   svg.append('rect')
     .style("fill", "none")
     .style("pointer-events", "all")
     .attr('width', width)
     .attr('height', height)
-    .on('mouseover', mouseover)
+    .on('mouseover',(event, d) => mouseover)
     .on('mousemove', mousemove)
     .on('mouseout',(event, d) =>  mouseout);
     
@@ -299,20 +359,33 @@ console.log(data);
     var hoverLine = hoverLineGroup
                     .append("line")
                         .attr("stroke", "#000")
-                        .attr("x1", 10).attr("x2", 10) 
+                        .attr("x1", 10).attr("x2", 20) 
                         .attr("y1", 0).attr("y2", height); 
 
 
   // What happens when the mouse move -> show the annotations at the right positions.
-  function mouseover() {
-    focus.style("opacity", 1)
+  function mouseover(event,d) {     
+    
+  console.log(d)
+   focus.style("opacity", 1)
+   focus.attr("r", function(d){
+  
+        if(d.Event == "T"){
+
+          return 30;
+        }
+
+        else{
+          return 5;
+        }
+      })
     focus2.style("opacity", 1)
     hoverLineGroup.style("opacity", 0);
    // focusText.style("opacity",1)
 
   }
 
-  function mousemove(event, d)  {
+  function mousemove()  {
     //Get the mouse position relative to the chart
         
     var x0 = x.invert(d3.mouse(this)[0]);
@@ -325,8 +398,43 @@ console.log(data);
 if (selectedData != null && selectedData.value != null) {
           
 focus
+
       .attr("cx", x(selectedData.date))
       .attr("cy", y(selectedData.value))
+      .attr("r", function(){
+  if(selectedData.Event == "T"){
+
+    return 30;
+  }
+
+  else{
+    return 5;
+  }
+})
+.attr("fill", function(){
+  if(selectedData.Event == "T"){
+
+    return "red";
+  }
+
+  else{
+    return "#69a3b2";
+  }
+
+})
+hoverLine.attr("x1", x(selectedData.date)).attr("x2", x(selectedData.date)).on("click", function() { 
+console.log("URL: "  + selectedData.eventUrl)
+  window.open(selectedData.eventUrl, "_blank")
+});
+
+hoverLineGroup.style("opacity", 1);
+focus
+//.append("a")
+//.attr({"xlink:href": selectedData.Url})
+// focus
+.on("click", function() { 
+  console.log("Vincent")
+  window.open(selectedData.Url)});
 focus2
       .attr("cx", x(selectedData.date))
       .attr("cy", y(selectedData.deaths))
@@ -357,14 +465,14 @@ d3.select("#" + tooltips2)
 .style("font-size", "10px");    
 
 
-hoverLine.attr("x1", x(selectedData.date)).attr("x2", x(selectedData.date))
-hoverLineGroup.style("opacity", 1);
+
 
 $('#' +lblCovids).html(selectedData.value);
 $('#' + lblNewCases).html(selectedData.new_case);
 $('#' + lblDeaths).html(selectedData.deaths);
 $('#' + lblNewDeaths).html(selectedData.new_death);
 $('#' + lblEvents).html(selectedData.detail!=''?"<br>"+selectedData.content+"<a href='" + selectedData.eventUrl  +"' target='_blank'>Find Out More</a>":"");
+
 var formatDate = d3.timeFormat("%d/%m/%Y");
 $('#' + lblDate).html(formatDate (selectedData.date));
         
