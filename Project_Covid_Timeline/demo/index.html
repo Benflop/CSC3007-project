@@ -15,9 +15,6 @@
 
     <!-- Color scale -->
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
     <!-- Demo style -->
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
@@ -25,6 +22,7 @@
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
     <meta name="description" content="jQuery timeline plugin, easily creates a timeline."/>
     <meta name="keywords" content="timelinejs, timeline, timeline slider, milestone, topic:chronology, jquery timeline plugin"/>
+
   </head>
   <body>
 
@@ -46,42 +44,37 @@
    
             <div class="timeline-containers" >
               <div class="timeline timeline-1">
-								<div data-time="2020"> 
+
+                <div data-time="2020">
                   <div id="my_dataviz-Container">
                     <div class="tooltip" id="tooltip1"> </div>
                     <div class="tooltip" id="tooltip2"> </div>
                     <div id="my_dataviz" style=" float:left; width:50%;height:100%" >
                      
                     </div>
+                  
                     
                     <div class="timeline-text" style="background: rgba(255, 255, 255, 0.5); margin-left: auto; margin-right:0;width:35%;height:330px" >
                       <h2 style="text-align: center;">Covid Highlight</h2>
-                      <div>
-                        <div>
-                          <div class="timeline-content"                      
-                          style=" float:left; width:50%;height:100%" >
-                                                    <!-- <div style="text-align: right" id="piechart"> -->
-                              Date: <label id="lblDate"></label> 
-                              <!-- <p id="piechart"></p> -->
-                              <br>
-                              Covid Cases: <label id="lblCovid"></label>
-                              <br>   
-                              New Cases: <label id="lblNewCase"></label>
-                              <br>
-                              Death Cases:<label id="lblDeath"></label>  
-                              <br>
-                              New Death Cases: <label id="lblNewDeath"></label>
-                              <br>
-                              Events: <label id="lblEvent"></label>  
-                          </div>  
-                          
-                    <div id="piechart" style="margin-left: auto; margin-right:0;width:50%;height:330px" >
-                              
-                      </div>
-                      </div>
+                      <div class="timeline-content"                      
+                      style=" float:left; width:50%;height:100%; margin: 5">
+                        Date: <label id="lblDate"></label>
+                        <br>
+                        Covid Cases: <label id="lblCovid"></label>
+                      <br>   New Cases: <label id="lblNewCase"></label><br>
+                      Death Cases:<label id="lblDeath"></label>  
+                    <br>
+                      New Death Cases: <label id="lblNewDeath"></label>
+                    <br>
+                    Events: <label id="lblEvent"></label>  
+                    </div>
+                    <div class="tooltip"></div>
+                    <div id="piechart" style="margin-left: auto; margin-right:0;width:50%;height:330px" ></div>
                     </div>
                   </div>
-						    </div>
+    
+								</div>
+								
 								
 								<div data-time="2021">
                   <div id="my_dataviz-Container">
@@ -197,6 +190,10 @@ var pWidth = 200
     // The radius of the pieplot is half the width or half the height (smallest one). I subtract a bit of margin.
     var radius = Math.min(pWidth, pHeight) / 2 - pMargin
 
+    var tip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+
     // append the svg object to the div called 'my_dataviz'
     var svg = d3.select("#piechart")
         .append("svg")
@@ -249,8 +246,6 @@ console.log(data);
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
-
-
   svg.append("g")
     .call(d3.axisLeft(y));
 
@@ -265,7 +260,6 @@ console.log(data);
   var line2 = d3.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.deaths); });
-
 
 
   // Create the circle that travels along the curve of chart
@@ -450,6 +444,15 @@ var data_ready = pie(d3.entries(data))
 // map to data
 var u = svg.selectAll("path")
     .data(data_ready)
+.on("mouseover", function (d) {
+                tip.style("opacity", 1)
+                    .html("This is working")
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY) + "px")
+            })
+            .on("mouseout", function (d) {
+                tip.style("opacity", 0)
+            })
 
 // Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
 u
